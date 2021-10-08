@@ -27,6 +27,7 @@ public class App
       PreparedStatement delete = conn.prepareStatement("delete from test where a = ?");
       System.out.println("Table created, waiting for 10 seconds to proceed...");
       Thread.sleep(10000);
+      
 
       for (int cnt = 0; cnt < 1000; ++cnt) {
         for (int i = 0; i < 100; ++i) {

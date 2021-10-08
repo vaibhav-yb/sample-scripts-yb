@@ -26,7 +26,7 @@ public class App {
 
       for (long i = 0; i < 10000; ++i) {
         ps.setLong(1, i);
-        ps.setLong(1, i+1);
+        ps.setLong(2, i+1);
 
         int cnt = ps.executeUpdate();
         if (cnt == 1) {

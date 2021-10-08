@@ -31,7 +31,11 @@ public class App {
         int cnt = ps.executeUpdate();
         if (cnt == 1) {
           System.out.println("Inserted row with a = " + i + " and b = " + (i + 1));
-          Thread.sleep(500);
+          if ((i > 100 && i < 200) || (i > 2000 && i < 2500)) {
+            Thread.sleep(800);
+          } else {
+            Thread.sleep(200);
+          }
           
         } else {
           System.out.println("Single row not inserted, breaking from loop...");

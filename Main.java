@@ -37,6 +37,7 @@ public class Main {
         if (cnt == 1) {
           System.out.println("Inserted row with a = " + i + " and b = " + (i + 1));
           Thread.sleep(500);
+          
         } else {
           System.out.println("Single row not inserted, breaking from loop...");
           break;

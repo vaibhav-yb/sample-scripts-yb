@@ -10,20 +10,21 @@ public class App
 {
   public static void main(String[] args) {
     try {
+      System.out.println("Starting CDC Load tester...");
       Connection conn = DriverManager.getConnection(
       "jdbc:postgresql://127.0.0.1:5433/yugabyte",
       "yugabyte",
       "yugabyte");
       conn.setAutoCommit(true);
 
-      PreparedStatement drop = conn.prepareStatement("drop table if exists test;");
-      PreparedStatement create = conn.prepareStatement("create table test (a int primary key, b int);");
-      PreparedStatement insert = conn.prepareStatement("insert into test values (?, ?);");
-      PreparedStatement delete = conn.prepareStatement("delete from test where a = ?;");
+      // PreparedStatement drop = conn.prepareStatement("drop table if exists test;");
+      // PreparedStatement create = conn.prepareStatement("create table test (a int primary key, b int);");
       Statement statement = conn.createStatement();
 
-      drop.execute();
-      create.execute();
+      statement.execute("drop table if exists test;");
+      statement.execute("create table test (a int primary key, b int);");
+      PreparedStatement insert = conn.prepareStatement("insert into test values (?, ?)");
+      PreparedStatement delete = conn.prepareStatement("delete from test where a = ?");
       System.out.println("Table created, waiting for 10 seconds to proceed...");
       Thread.sleep(10000);
 
@@ -60,8 +61,8 @@ public class App
         }
       }
 
-      drop.close();
-      create.close();
+      // drop.close();
+      // create.close();
       insert.close();
       delete.close();
 

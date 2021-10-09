@@ -66,8 +66,11 @@ public class App
             System.exit(0);
           }
           statement.execute("commit;");
+          System.out.println("Deleted row with a = " + i);
           delete.clearParameters();
         }
+        System.out.println("Starting another iteration, take a look at op count...");
+        Thread.sleep(10000);
       }
 
       // drop.close();

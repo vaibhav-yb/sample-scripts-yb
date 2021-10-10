@@ -81,6 +81,7 @@ public class App
       conn.close();
     } catch (Exception e) {
       System.out.println("Exception raised while performing operations...");
+      e.printStackTrace();
     }
   }
 }

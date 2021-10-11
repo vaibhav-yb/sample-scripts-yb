@@ -50,8 +50,10 @@ public class App
         Thread.sleep(3000);
         for (int i = 0; i < 100; ++i) {
           int res = statement.executeUpdate(String.format("update test set b = b + 1 where a = %d;", i));
+          statement.execute("begin;");
           selectb.setInt(1, i);
           ResultSet rs = selectb.executeQuery();
+          statement.execute("commit;");
           rs.next();
           int bVal = rs.getInt(1);
           if (bVal != (i+2)) {

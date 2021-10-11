@@ -22,8 +22,8 @@ public class App
       // PreparedStatement create = conn.prepareStatement("create table test (a int primary key, b int);");
       Statement statement = conn.createStatement();
 
-      statement.execute("drop table if exists test;");
-      statement.execute("create table test (a int primary key, b int);");
+      // statement.execute("drop table if exists test;");
+      // statement.execute("create table test (a int primary key, b int);");
       PreparedStatement insert = conn.prepareStatement("insert into test values (?, ?)");
       PreparedStatement delete = conn.prepareStatement("delete from test where a = ?");
       PreparedStatement selectb = conn.prepareStatement("select b from test where a = ?");

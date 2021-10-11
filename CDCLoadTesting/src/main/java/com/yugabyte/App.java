@@ -31,7 +31,7 @@ public class App
       Thread.sleep(10000);
 
       int numOfIterations = 4;
-      int internalOps = 20;
+      int internalOps = 200;
       for (int cnt = 0; cnt < numOfIterations; ++cnt) {
         System.out.println("Starting row insert...");
         Thread.sleep(3000);

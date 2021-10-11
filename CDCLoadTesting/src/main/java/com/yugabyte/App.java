@@ -30,11 +30,12 @@ public class App
       System.out.println("Table created, waiting for 10 seconds to proceed...");
       Thread.sleep(10000);
 
-
-      for (int cnt = 0; cnt < 50; ++cnt) {
+      int numOfIterations = 1;
+      int internalOps = 1;
+      for (int cnt = 0; cnt < numOfIterations; ++cnt) {
         System.out.println("Starting row insert...");
         Thread.sleep(3000);
-        for (int i = 0; i < 100; ++i) {
+        for (int i = 0; i < internalOps; ++i) {
           insert.setInt(1, i);
           insert.setInt(2, i+1);
           int res = insert.executeUpdate();
@@ -48,7 +49,7 @@ public class App
 
         System.out.println("Starting row update now...");
         Thread.sleep(3000);
-        for (int i = 0; i < 100; ++i) {
+        for (int i = 0; i < internalOps; ++i) {
           statement.execute("begin;");
           int res = statement.executeUpdate(String.format("update test set b = b + 1 where a = %d;", i));
           statement.execute("commit;");
@@ -70,7 +71,7 @@ public class App
 
         System.out.println("Starting row delete...");
         Thread.sleep(3000);
-        for (int i = 0; i < 100; ++i) {
+        for (int i = 0; i < internalOps; ++i) {
           statement.execute("begin;");
           delete.setInt(1, i);
           int res = delete.executeUpdate();

@@ -3,6 +3,7 @@ package com.yugabyte;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -25,6 +26,7 @@ public class App
       statement.execute("create table test (a int primary key, b int);");
       PreparedStatement insert = conn.prepareStatement("insert into test values (?, ?)");
       PreparedStatement delete = conn.prepareStatement("delete from test where a = ?");
+      PreparedStatement selectb = conn.prepareStatement("select b from test where a = ?");
       System.out.println("Table created, waiting for 10 seconds to proceed...");
       Thread.sleep(10000);
 
@@ -48,11 +50,20 @@ public class App
         Thread.sleep(3000);
         for (int i = 0; i < 100; ++i) {
           int res = statement.executeUpdate("update test set b = b + 1 where a = " + i + ";");
+          selectb.setInt(1, i);
+          ResultSet rs = selectb.executeQuery();
+          rs.next();
+          int bVal = rs.getInt(1);
+          if (bVal != (i+2)) {
+            System.out.println("Update not performed successfully on a = " + i);
+            System.exit(0);
+          }
           if (res != 1) {
             System.out.println(String.format("Error while updating key %d, exiting...", i));
             System.exit(0);
           }
           System.out.println("Row after update, a = " + i + " b = " + (i + 2));
+          selectb.clearParameters();
         }
 
         System.out.println("Starting row delete...");
@@ -69,6 +80,12 @@ public class App
           System.out.println("Deleted row with a = " + i);
           delete.clearParameters();
         }
+        ResultSet rs = statement.executeQuery("select * from test;");
+        if (rs.next() != false) {
+          System.out.println("Row val, a = " + rs.getInt(1));
+          System.out.println("Not all the rows are deleted, exiting...");
+          System.exit(0);
+        }
         System.out.println("Starting another iteration, take a look at op count...");
         Thread.sleep(10000);
       }
@@ -77,7 +94,7 @@ public class App
       // create.close();
       insert.close();
       delete.close();
-
+      selectb.close();
       conn.close();
     } catch (Exception e) {
       System.out.println("Exception raised while performing operations...");

@@ -22,8 +22,8 @@ public class App
       // PreparedStatement create = conn.prepareStatement("create table test (a int primary key, b int);");
       Statement statement = conn.createStatement();
 
-      // statement.execute("drop table if exists test;");
-      // statement.execute("create table test (a int primary key, b int);");
+      statement.execute("drop table if exists test;");
+      statement.execute("create table test (a int primary key, b int);");
       PreparedStatement insert = conn.prepareStatement("insert into test values (?, ?)");
       PreparedStatement delete = conn.prepareStatement("delete from test where a = ?");
       PreparedStatement selectb = conn.prepareStatement("select b from test where a = ?");
@@ -72,14 +72,14 @@ public class App
         System.out.println("Starting row delete...");
         Thread.sleep(3000);
         for (int i = 0; i < internalOps; ++i) {
-          statement.execute("begin;");
+          // statement.execute("begin;");
           delete.setInt(1, i);
           int res = delete.executeUpdate();
           if (res != 1) {
             System.out.println(String.format("Error while deleting key %d, exiting...", i));
             System.exit(0);
           }
-          statement.execute("commit;");
+          // statement.execute("commit;");
           System.out.println("Deleted row with a = " + i);
           delete.clearParameters();
         }

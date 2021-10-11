@@ -49,7 +49,7 @@ public class App
         System.out.println("Starting row update now...");
         Thread.sleep(3000);
         for (int i = 0; i < 100; ++i) {
-          int res = statement.executeUpdate("update test set b = b + 1 where a = " + i + ";");
+          int res = statement.executeUpdate(String.format("update test set b = b + 1 where a = %d;", i));
           selectb.setInt(1, i);
           ResultSet rs = selectb.executeQuery();
           rs.next();

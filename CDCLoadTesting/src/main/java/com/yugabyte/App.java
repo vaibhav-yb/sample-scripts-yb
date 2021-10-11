@@ -30,7 +30,7 @@ public class App
       System.out.println("Table created, waiting for 10 seconds to proceed...");
       Thread.sleep(10000);
 
-      int numOfIterations = 5;
+      int numOfIterations = 4;
       int internalOps = 20;
       for (int cnt = 0; cnt < numOfIterations; ++cnt) {
         System.out.println("Starting row insert...");

@@ -31,7 +31,7 @@ public class App
       Thread.sleep(10000);
 
 
-      for (int cnt = 0; cnt < 30; ++cnt) {
+      for (int cnt = 0; cnt < 50; ++cnt) {
         System.out.println("Starting row insert...");
         Thread.sleep(3000);
         for (int i = 0; i < 100; ++i) {

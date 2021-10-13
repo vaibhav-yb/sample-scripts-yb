@@ -32,7 +32,7 @@ public class App
 
       int numOfIterations = 1000;
       int internalOps = 1000;
-      for (int cnt = 0; true /*cnt < numOfIterations*/; ++cnt) {
+      for (int cnt = 0; cnt > -1; ++cnt) {
         System.out.println("Starting row insert...");
         Thread.sleep(300);
         for (int i = 0; i < internalOps; ++i) {

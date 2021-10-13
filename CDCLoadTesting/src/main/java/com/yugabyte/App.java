@@ -22,19 +22,19 @@ public class App
       // PreparedStatement create = conn.prepareStatement("create table test (a int primary key, b int);");
       Statement statement = conn.createStatement();
 
-      statement.execute("drop table if exists test;");
-      statement.execute("create table test (a int primary key, b int);");
+      // statement.execute("drop table if exists test;");
+      // statement.execute("create table test (a int primary key, b int);");
       PreparedStatement insert = conn.prepareStatement("insert into test values (?, ?)");
       PreparedStatement delete = conn.prepareStatement("delete from test where a = ?");
       PreparedStatement selectb = conn.prepareStatement("select b from test where a = ?");
-      System.out.println("Table created, waiting for 10 seconds to proceed...");
-      Thread.sleep(10000);
+      // System.out.println("Table created, waiting for 10 seconds to proceed...");
+      // Thread.sleep(10000);
 
-      int numOfIterations = 4;
-      int internalOps = 100;
+      int numOfIterations = 100;
+      int internalOps = 1000;
       for (int cnt = 0; cnt < numOfIterations; ++cnt) {
         System.out.println("Starting row insert...");
-        Thread.sleep(3000);
+        Thread.sleep(300);
         for (int i = 0; i < internalOps; ++i) {
           insert.setInt(1, i);
           insert.setInt(2, i+1);
@@ -48,11 +48,11 @@ public class App
         }
 
         System.out.println("Starting row update now...");
-        Thread.sleep(3000);
+        Thread.sleep(300);
         for (int i = 0; i < internalOps; ++i) {
-          // statement.execute("begin;");
+          statement.execute("begin;");
           int res = statement.executeUpdate(String.format("update test set b = b + 1 where a = %d;", i));
-          // statement.execute("commit;");
+          statement.execute("commit;");
           selectb.setInt(1, i);
           ResultSet rs = selectb.executeQuery();
           rs.next();
@@ -70,7 +70,7 @@ public class App
         }
 
         System.out.println("Starting row delete...");
-        Thread.sleep(3000);
+        Thread.sleep(300);
         for (int i = 0; i < internalOps; ++i) {
           statement.execute("begin;");
           delete.setInt(1, i);
@@ -89,8 +89,12 @@ public class App
           System.out.println("Not all the rows are deleted, exiting...");
           System.exit(0);
         }
-        System.out.println("Starting another iteration, take a look at op count...");
-        Thread.sleep(10000);
+        
+        if (i != numOfIterations) {
+          System.out.println("Starting another iteration, take a look at op count...");
+        }
+
+        Thread.sleep(500);
       }
 
       // drop.close();

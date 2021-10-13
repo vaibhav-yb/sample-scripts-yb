@@ -90,7 +90,7 @@ public class App
           System.exit(0);
         }
 
-        if (i != numOfIterations) {
+        if (cnt != numOfIterations - 1) {
           System.out.println("Starting another iteration, take a look at op count...");
         }
 

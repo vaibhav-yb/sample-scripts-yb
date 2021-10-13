@@ -50,9 +50,9 @@ public class App
         System.out.println("Starting row update now...");
         Thread.sleep(300);
         for (int i = 0; i < internalOps; ++i) {
-          statement.execute("begin;");
+          // statement.execute("begin;");
           int res = statement.executeUpdate(String.format("update test set b = b + 1 where a = %d;", i));
-          statement.execute("commit;");
+          // statement.execute("commit;");
           selectb.setInt(1, i);
           ResultSet rs = selectb.executeQuery();
           rs.next();
@@ -72,14 +72,14 @@ public class App
         System.out.println("Starting row delete...");
         Thread.sleep(300);
         for (int i = 0; i < internalOps; ++i) {
-          statement.execute("begin;");
+          // statement.execute("begin;");
           delete.setInt(1, i);
           int res = delete.executeUpdate();
           if (res != 1) {
             System.out.println(String.format("Error while deleting key %d, exiting...", i));
             System.exit(0);
           }
-          statement.execute("commit;");
+          // statement.execute("commit;");
           System.out.println("Deleted row with a = " + i);
           delete.clearParameters();
         }
@@ -89,7 +89,7 @@ public class App
           System.out.println("Not all the rows are deleted, exiting...");
           System.exit(0);
         }
-        
+
         if (i != numOfIterations) {
           System.out.println("Starting another iteration, take a look at op count...");
         }

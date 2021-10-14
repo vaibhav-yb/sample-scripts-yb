@@ -48,10 +48,10 @@ public class App
 
         System.out.println("Starting row update now...");
         for (int i = 0; i < internalOps; ++i) {
-          // statement.execute("begin;");
+           statement.execute("begin;");
 //          System.out.println("[UPDATE]:" + String.format("update test set b = b + 1 where a = vaibhav"+i+";"));
           int res = statement.executeUpdate(String.format("update test set b = b + 1 where a = \'vaibhav"+i+"\';"));
-          // statement.execute("commit;");
+           statement.execute("commit;");
 //          selectb.setString(1, "vaibhav"+i);
 //          ResultSet rs = selectb.executeQuery();
 //          rs.next();
@@ -70,14 +70,14 @@ public class App
 
         System.out.println("Starting row delete...");
         for (int i = 0; i < internalOps; ++i) {
-          // statement.execute("begin;");
+           statement.execute("begin;");
           delete.setString(1, "vaibhav"+i);
           int res = delete.executeUpdate();
           if (res != 1) {
             System.out.println(String.format("Error while deleting key %s, exiting...", "vaibhav"+i));
             System.exit(0);
           }
-          // statement.execute("commit;");
+           statement.execute("commit;");
           System.out.println("Deleted row with a = " + "vaibhav"+i);
           delete.clearParameters();
         }

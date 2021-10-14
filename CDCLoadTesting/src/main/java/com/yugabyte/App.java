@@ -32,9 +32,9 @@ public class App
 
       int numOfIterations = 100;
       int internalOps = 1000;
-      for (int cnt = 0; cnt > -1; ++cnt) {
+      for (int cnt = 0; cnt < 1; ++cnt) {
         System.out.println("Starting row insert...");
-        for (int i = 0; i < internalOps; ++i) {
+        for (int i = 0; i < 1; ++i) {
           insert.setString(1, "vaibhav"+i);
           insert.setInt(2, i);
           int res = insert.executeUpdate();
@@ -47,9 +47,10 @@ public class App
         }
 
         System.out.println("Starting row update now...");
-        for (int i = 0; i < internalOps; ++i) {
+        for (int i = 0; i < 1; ++i) {
           // statement.execute("begin;");
-          int res = statement.executeUpdate(String.format("update test set b = b + 1 where a = vaibhav"+i+";"));
+//          System.out.println("[UPDATE]:" + String.format("update test set b = b + 1 where a = vaibhav"+i+";"));
+          int res = statement.executeUpdate(String.format("update test set b = b + 1 where a = \'vaibhav"+i+"\';"));
           // statement.execute("commit;");
 //          selectb.setString(1, "vaibhav"+i);
 //          ResultSet rs = selectb.executeQuery();
@@ -68,7 +69,7 @@ public class App
         }
 
         System.out.println("Starting row delete...");
-        for (int i = 0; i < internalOps; ++i) {
+        for (int i = 0; i < 1; ++i) {
           // statement.execute("begin;");
           delete.setString(1, "vaibhav"+i);
           int res = delete.executeUpdate();

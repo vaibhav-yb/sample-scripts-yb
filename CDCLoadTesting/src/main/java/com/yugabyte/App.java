@@ -39,7 +39,7 @@ public class App
         for (int i = 0; i < internalOps; ++i) {
           insert.setInt(1, i);
           insert.setInt(2, i+1);
-          insert.setString(3, "vaibhav")
+          insert.setString(3, "vaibhav");
           int res = insert.executeUpdate();
           if (res != 1) {
             System.out.println(String.format("Error while inserting (%d, %d, %s), exiting...", i, i + 1, "vaibhav"));

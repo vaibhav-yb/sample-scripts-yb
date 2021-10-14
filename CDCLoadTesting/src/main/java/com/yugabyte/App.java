@@ -49,7 +49,7 @@ public class App
         System.out.println("Starting row update now...");
         for (int i = 0; i < internalOps; ++i) {
           // statement.execute("begin;");
-          int res = statement.executeUpdate(String.format("update test set b = b + 1 where a = %s;", "vaibhav"+i));
+          int res = statement.executeUpdate(String.format("update test set b = b + 1 where a = vaibhav"+i+";"));
           // statement.execute("commit;");
 //          selectb.setString(1, "vaibhav"+i);
 //          ResultSet rs = selectb.executeQuery();
@@ -63,7 +63,7 @@ public class App
 //            System.out.println(String.format("Error while updating key %s, exiting...", "vaibhav"+i));
 //            System.exit(0);
 //          }
-          System.out.println("Row after update, a = " + "vaibhav"+i + " b = " + (i));
+          System.out.println("Row after update, a = " + "vaibhav"+i + " b = " + (i+1));
           selectb.clearParameters();
         }
 

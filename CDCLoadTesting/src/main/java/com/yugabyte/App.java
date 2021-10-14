@@ -51,18 +51,18 @@ public class App
           // statement.execute("begin;");
           int res = statement.executeUpdate(String.format("update test set b = b + 1 where a = %s;", "vaibhav"+i));
           // statement.execute("commit;");
-          selectb.setString(1, "vaibhav"+i);
-          ResultSet rs = selectb.executeQuery();
-          rs.next();
+//          selectb.setString(1, "vaibhav"+i);
+//          ResultSet rs = selectb.executeQuery();
+//          rs.next();
 //          int bVal = rs.getInt(1);
 //          if (bVal != (i+2)) {
 //            System.out.println("Update not performed successfully on a = " + i);
 //            System.exit(0);
 //          }
-          if (res != 1) {
-            System.out.println(String.format("Error while updating key %s, exiting...", "vaibhav"+i));
-            System.exit(0);
-          }
+//          if (res != 1) {
+//            System.out.println(String.format("Error while updating key %s, exiting...", "vaibhav"+i));
+//            System.exit(0);
+//          }
           System.out.println("Row after update, a = " + "vaibhav"+i + " b = " + (i));
           selectb.clearParameters();
         }

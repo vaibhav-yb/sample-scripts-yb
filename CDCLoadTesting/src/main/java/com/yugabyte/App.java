@@ -17,7 +17,7 @@ public class App
       "yugabyte",
       "yugabyte");
       conn.setAutoCommit(true);
-      System.out.println("Network timeout is: " + conn.getNetworkTimeout();)
+      System.out.println("Network timeout is: " + conn.getNetworkTimeout());
       conn.setNetworkTimeout(0);
 
       // PreparedStatement drop = conn.prepareStatement("drop table if exists test;");

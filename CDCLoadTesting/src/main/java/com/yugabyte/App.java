@@ -24,7 +24,7 @@ public class App
 
       // statement.execute("drop table if exists test;");
       // statement.execute("create table test (a int primary key, b int);");
-      PreparedStatement insert = conn.prepareStatement("insert into test values (?, ?)");
+      PreparedStatement insert = conn.prepareStatement("insert into test values (?, ?, 32.34, \'{1, 2, 3}\')");
       PreparedStatement delete = conn.prepareStatement("delete from test where a = ?");
       PreparedStatement selectb = conn.prepareStatement("select b from test where a = ?");
       // System.out.println("Table created, waiting for 10 seconds to proceed...");
@@ -32,69 +32,64 @@ public class App
 
       int numOfIterations = 100;
       int internalOps = 1000;
-      for (int cnt = 0; cnt < numOfIterations; ++cnt) {
+      for (int cnt = 0; cnt > -1; ++cnt) {
         System.out.println("Starting row insert...");
-        Thread.sleep(300);
         for (int i = 0; i < internalOps; ++i) {
-          insert.setInt(1, i);
-          insert.setInt(2, i+1);
+          insert.setString(1, "vaibhav"+i);
+          insert.setInt(2, i);
           int res = insert.executeUpdate();
           if (res != 1) {
-            System.out.println(String.format("Error while inserting (%d, %d), exiting...", i, i + 1));
+            System.out.println(String.format("Error while inserting (%s, %d), exiting...", "vaibhav"+i, i));
             System.exit(0);
           }
-          System.out.println("Inserted row with a = " + i + " and b = " + (i + 1));
+          System.out.println("Inserted row with a = " + "vaibhav"+i + ", b = " + (i) + ", c = 32.34 and d = {1, 2, 3}");
           insert.clearParameters();
         }
 
         System.out.println("Starting row update now...");
-        Thread.sleep(300);
         for (int i = 0; i < internalOps; ++i) {
           // statement.execute("begin;");
-          int res = statement.executeUpdate(String.format("update test set b = b + 1 where a = %d;", i));
+          int res = statement.executeUpdate(String.format("update test set b = b + 1 where a = %s;", "vaibhav"+i));
           // statement.execute("commit;");
-          selectb.setInt(1, i);
+          selectb.setString(1, "vaibhav"+i);
           ResultSet rs = selectb.executeQuery();
           rs.next();
-          int bVal = rs.getInt(1);
-          if (bVal != (i+2)) {
-            System.out.println("Update not performed successfully on a = " + i);
-            System.exit(0);
-          }
+//          int bVal = rs.getInt(1);
+//          if (bVal != (i+2)) {
+//            System.out.println("Update not performed successfully on a = " + i);
+//            System.exit(0);
+//          }
           if (res != 1) {
-            System.out.println(String.format("Error while updating key %d, exiting...", i));
+            System.out.println(String.format("Error while updating key %s, exiting...", "vaibhav"+i));
             System.exit(0);
           }
-          System.out.println("Row after update, a = " + i + " b = " + (i + 2));
+          System.out.println("Row after update, a = " + "vaibhav"+i + " b = " + (i));
           selectb.clearParameters();
         }
 
         System.out.println("Starting row delete...");
-        Thread.sleep(300);
         for (int i = 0; i < internalOps; ++i) {
           // statement.execute("begin;");
-          delete.setInt(1, i);
+          delete.setString(1, "vaibhav"+i);
           int res = delete.executeUpdate();
           if (res != 1) {
-            System.out.println(String.format("Error while deleting key %d, exiting...", i));
+            System.out.println(String.format("Error while deleting key %s, exiting...", "vaibhav"+i));
             System.exit(0);
           }
           // statement.execute("commit;");
-          System.out.println("Deleted row with a = " + i);
+          System.out.println("Deleted row with a = " + "vaibhav"+i);
           delete.clearParameters();
         }
         ResultSet rs = statement.executeQuery("select * from test;");
         if (rs.next() != false) {
-          System.out.println("Row val, a = " + rs.getInt(1));
+          System.out.println("Row val, a = " + rs.getInt(2));
           System.out.println("Not all the rows are deleted, exiting...");
           System.exit(0);
         }
 
-        if (cnt != numOfIterations - 1) {
+        if (true) {
           System.out.println("Starting another iteration, take a look at op count...");
         }
-
-        Thread.sleep(500);
       }
 
       // drop.close();

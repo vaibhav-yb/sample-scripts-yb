@@ -32,9 +32,9 @@ public class App
 
       int numOfIterations = 100;
       int internalOps = 1000;
-      for (int cnt = 0; cnt < 1; ++cnt) {
+      for (int cnt = 0; cnt > -1; ++cnt) {
         System.out.println("Starting row insert...");
-        for (int i = 0; i < 1; ++i) {
+        for (int i = 0; i < internalOps; ++i) {
           insert.setString(1, "vaibhav"+i);
           insert.setInt(2, i);
           int res = insert.executeUpdate();
@@ -47,7 +47,7 @@ public class App
         }
 
         System.out.println("Starting row update now...");
-        for (int i = 0; i < 1; ++i) {
+        for (int i = 0; i < internalOps; ++i) {
           // statement.execute("begin;");
 //          System.out.println("[UPDATE]:" + String.format("update test set b = b + 1 where a = vaibhav"+i+";"));
           int res = statement.executeUpdate(String.format("update test set b = b + 1 where a = \'vaibhav"+i+"\';"));

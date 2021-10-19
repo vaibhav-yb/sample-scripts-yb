@@ -13,21 +13,21 @@ public class App
     try {
       System.out.println("Starting CDC Load tester...");
       Connection conn = DriverManager.getConnection(
-      "jdbc:postgresql://172.151.16.124:5433/yugabyte", "yugabyte", "yugabyte");
+      "jdbc:postgresql://127.0.0.1:5433/yugabyte", "yugabyte", "yugabyte");
       conn.setAutoCommit(true);
 
-      if (conn.isValid(10)) {
-        System.out.println("Connection established to universe...");
-      } else {
-        throw new Exception("Cannot establish connection to universe...");
-      }
+//      if (conn.isValid(10)) {
+//        System.out.println("Connection established to universe...");
+//      } else {
+//        throw new Exception("Cannot establish connection to universe...");
+//      }
 
       // PreparedStatement drop = conn.prepareStatement("drop table if exists test;");
       // PreparedStatement create = conn.prepareStatement("create table test (a int primary key, b int);");
       Statement statement = conn.createStatement();
 
-       statement.execute("drop table if exists test;");
-       statement.execute("create table test (a text primary key, b int, c numeric, d int[]);");
+//       statement.execute("drop table if exists test;");
+//       statement.execute("create table test (a text primary key, b int, c numeric, d int[]);");
       PreparedStatement insert = conn.prepareStatement("insert into test values (?, ?, 32.34, \'{1, 2, 3}\')");
       PreparedStatement delete = conn.prepareStatement("delete from test where a = ?");
       PreparedStatement selectb = conn.prepareStatement("select b from test where a = ?");

@@ -13,12 +13,10 @@ public class App
     try {
       System.out.println("Starting CDC Load tester...");
       Connection conn = DriverManager.getConnection(
-      "jdbc:postgresql://cdc-vkushwaha.com.yugabyte.yw.models.Customer@f.universe.yugabyte.com:5433/yugabyte"/*,
-      "yugabyte",
-      "yugabyte"*/);
+      "jdbc:postgresql://172.151.16.124:5433/yugabyte", "yugabyte", "yugabyte");
       conn.setAutoCommit(true);
 
-      if (!conn.isClosed()) {
+      if (conn.isValid(10)) {
         System.out.println("Connection established to universe...");
       } else {
         throw new Exception("Cannot establish connection to universe...");

@@ -13,17 +13,23 @@ public class App
     try {
       System.out.println("Starting CDC Load tester...");
       Connection conn = DriverManager.getConnection(
-      "jdbc:postgresql://127.0.0.1:5433/yugabyte",
+      "jdbc:postgresql://cdc-vkushwaha.com.yugabyte.yw.models.Customer@f.universe.yugabyte.com:5433/yugabyte"/*,
       "yugabyte",
-      "yugabyte");
+      "yugabyte"*/);
       conn.setAutoCommit(true);
+
+      if (!conn.isClosed()) {
+        System.out.println("Connection established to universe...");
+      } else {
+        throw new Exception("Cannot establish connection to universe...");
+      }
 
       // PreparedStatement drop = conn.prepareStatement("drop table if exists test;");
       // PreparedStatement create = conn.prepareStatement("create table test (a int primary key, b int);");
       Statement statement = conn.createStatement();
 
-      // statement.execute("drop table if exists test;");
-      // statement.execute("create table test (a int primary key, b int);");
+       statement.execute("drop table if exists test;");
+       statement.execute("create table test (a text primary key, b int, c numeric, d int[]);");
       PreparedStatement insert = conn.prepareStatement("insert into test values (?, ?, 32.34, \'{1, 2, 3}\')");
       PreparedStatement delete = conn.prepareStatement("delete from test where a = ?");
       PreparedStatement selectb = conn.prepareStatement("select b from test where a = ?");
@@ -101,6 +107,7 @@ public class App
       conn.close();
     } catch (Exception e) {
       System.out.println("Exception raised while performing operations...");
+      System.out.println(e);
       e.printStackTrace();
     }
   }

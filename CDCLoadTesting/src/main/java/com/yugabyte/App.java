@@ -9,6 +9,7 @@ import java.sql.Statement;
 
 public class App 
 {
+  public Connection conn;
   public static void main(String[] args) {
     System.out.println("Starting CDC Load tester...");
     String[] connectionPoints = {"172.151.26.187:5433", "172.151.34.47:5433", "172.151.53.154:5433"};
@@ -17,8 +18,10 @@ public class App
       try {
         System.out.println("\n\n\nTrying to connect via JDBC...\nConnection point = " + connectionPoints[ptrIdx] + "\n\n");
         String connectionString = String.format("jdbc:postgresql://%s/yugabyte", connectionPoints[ptrIdx]);
-        Connection conn = DriverManager.getConnection(connectionString);
+
+        conn = DriverManager.getConnection(connectionString);
         conn.setAutoCommit(true);
+
         runSampleScript();
 //
       } catch (Exception e) {

@@ -105,7 +105,7 @@ public class App
         System.out.println("\nTrying to connect via JDBC...\nConnection point = " + connectionPoints[ptrIdx] + "\n");
         String connectionString = String.format("jdbc:postgresql://%s/yugabyte", connectionPoints[ptrIdx]);
 
-        conn = DriverManager.getConnection(connectionString);
+        conn = DriverManager.getConnection(connectionString, "yugabyte", "yugabyte");
         conn.setAutoCommit(true);
 
         App appObject = new App();

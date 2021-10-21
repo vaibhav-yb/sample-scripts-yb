@@ -43,7 +43,7 @@ public class App
       PreparedStatement delete = conn.prepareStatement("delete from test where a = ?");
       PreparedStatement selectb = conn.prepareStatement("select b from test where a = ?");
 
-      int ins = 0. upd = 0, del = 0;
+      int ins = 0, upd = 0, del = 0;
       long iterationCounter = 0;
       int numOfIterations = 100;
       int internalOps = 1000;

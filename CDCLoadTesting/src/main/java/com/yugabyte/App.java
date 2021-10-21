@@ -9,21 +9,108 @@ import java.sql.Statement;
 
 public class App 
 {
-  public Connection conn;
+  public static Connection conn;
+
+  public void runSampleScript() throws Exception {
+    Statement statement = conn.createStatement();
+    System.out.println("Truncating table now...");
+    statement.execute("trucate table test;");
+
+    PreparedStatement insert = conn.prepareStatement("insert into test values (?, ?, 32.34, \'{1, 2, 3}\')");
+    PreparedStatement delete = conn.prepareStatement("delete from test where a = ?");
+    PreparedStatement selectb = conn.prepareStatement("select b from test where a = ?");
+
+    int ins = 0, upd = 0, del = 0;
+    long iterationCounter = 0;
+    int numOfIterations = 100;
+    int internalOps = 1000;
+    for (int cnt = 0; cnt > -1; ++cnt) {
+      System.out.println("Starting row insert...");
+      for (int i = 0; i < internalOps; ++i) {
+        ++iterationCounter;
+        insert.setString(1, "vaibhav"+i);
+        insert.setInt(2, i);
+        int res = insert.executeUpdate();
+        if (res != 1) {
+          System.out.println(String.format("Error while inserting (%s, %d), exiting...", "vaibhav"+i, i));
+          System.exit(0);
+        }
+        System.out.println("Inserted row with a = " + "vaibhav"+i + ", b = " + (i) + ", c = 32.34 and d = {1, 2, 3}");
+        ++ins;
+        insert.clearParameters();
+      }
+
+      System.out.println("Starting row update now...");
+      for (int i = 0; i < internalOps; ++i) {
+        statement.execute("begin;");
+        int res = statement.executeUpdate(String.format("update test set b = b + 1 where a = \'vaibhav"+i+"\';"));
+        if (res == 1) {
+          ++upd;
+        } else {
+          System.out.println("Some error occured while updating row...");
+          System.exit(0);
+        }
+        statement.execute("commit;");
+        System.out.println("Row after update, a = " + "vaibhav"+i + " b = " + (i+1));
+        selectb.clearParameters();
+      }
+
+      System.out.println("Starting row delete...");
+      for (int i = 0; i < internalOps; ++i) {
+        statement.execute("begin;");
+        delete.setString(1, "vaibhav"+i);
+        int res = delete.executeUpdate();
+
+        if (res == 1) {
+          ++del;
+        } else {
+          System.out.println(String.format("Error while deleting key %s, exiting...", "vaibhav"+i));
+          System.exit(0);
+        }
+
+        statement.execute("commit;");
+        System.out.println("Deleted row with a = " + "vaibhav"+i);
+        delete.clearParameters();
+      }
+      ResultSet rs = statement.executeQuery("select * from test;");
+      if (rs.next() != false) {
+        System.out.println("Row val, a = " + rs.getInt(2));
+        System.out.println("Not all the rows are deleted, exiting...");
+        System.exit(0);
+      }
+
+      if (true) {
+        System.out.println("Starting another iteration, take a look at op count...");
+        System.out.println(String.format("Inserts = %d\t Updates = %d\t Deletes = %d", ins, upd, del));
+        System.out.println("Iteration count: " + iterationCounter);
+        ins = 0;
+        upd = 0;
+        del = 0;
+        Thread.sleep(3000);
+      }
+    }
+
+    insert.close();
+    delete.close();
+    selectb.close();
+    conn.close();
+  }
+
   public static void main(String[] args) {
     System.out.println("Starting CDC Load tester...");
     String[] connectionPoints = {"172.151.26.187:5433", "172.151.34.47:5433", "172.151.53.154:5433"};
     int ptrIdx = 0;
     while (true) {
       try {
-        System.out.println("\n\n\nTrying to connect via JDBC...\nConnection point = " + connectionPoints[ptrIdx] + "\n\n");
+        System.out.println("\nTrying to connect via JDBC...\nConnection point = " + connectionPoints[ptrIdx] + "\n");
         String connectionString = String.format("jdbc:postgresql://%s/yugabyte", connectionPoints[ptrIdx]);
 
         conn = DriverManager.getConnection(connectionString);
         conn.setAutoCommit(true);
 
-        runSampleScript();
-//
+        App appObject = new App();
+        appObject.runSampleScript();
+
       } catch (Exception e) {
         System.out.println("Exception raised while performing operations...");
         ++ptrIdx;
@@ -35,90 +122,5 @@ public class App
         e.printStackTrace();
       }
     }
-  }
-
-  public void runSampleScript() {
-      Statement statement = conn.createStatement();
-      System.out.println("Truncating table now...");
-      statement.execute("trucate table test;");
-
-      PreparedStatement insert = conn.prepareStatement("insert into test values (?, ?, 32.34, \'{1, 2, 3}\')");
-      PreparedStatement delete = conn.prepareStatement("delete from test where a = ?");
-      PreparedStatement selectb = conn.prepareStatement("select b from test where a = ?");
-
-      int ins = 0, upd = 0, del = 0;
-      long iterationCounter = 0;
-      int numOfIterations = 100;
-      int internalOps = 1000;
-      for (int cnt = 0; cnt > -1; ++cnt) {
-        System.out.println("Starting row insert...");
-        for (int i = 0; i < internalOps; ++i) {
-          ++iterationCounter;
-          insert.setString(1, "vaibhav"+i);
-          insert.setInt(2, i);
-          int res = insert.executeUpdate();
-          if (res != 1) {
-            System.out.println(String.format("Error while inserting (%s, %d), exiting...", "vaibhav"+i, i));
-            System.exit(0);
-          }
-          System.out.println("Inserted row with a = " + "vaibhav"+i + ", b = " + (i) + ", c = 32.34 and d = {1, 2, 3}");
-          ++ins;
-          insert.clearParameters();
-        }
-
-        System.out.println("Starting row update now...");
-        for (int i = 0; i < internalOps; ++i) {
-          statement.execute("begin;");
-          int res = statement.executeUpdate(String.format("update test set b = b + 1 where a = \'vaibhav"+i+"\';"));
-          if (res == 1) {
-            ++upd;
-          } else {
-            System.out.println("Some error occured while updating row...");
-            System.exit(0);
-          }
-          statement.execute("commit;");
-          System.out.println("Row after update, a = " + "vaibhav"+i + " b = " + (i+1));
-          selectb.clearParameters();
-        }
-
-        System.out.println("Starting row delete...");
-        for (int i = 0; i < internalOps; ++i) {
-          statement.execute("begin;");
-          delete.setString(1, "vaibhav"+i);
-          int res = delete.executeUpdate();
-
-          if (res == 1) {
-            ++del;
-          } else {
-            System.out.println(String.format("Error while deleting key %s, exiting...", "vaibhav"+i));
-            System.exit(0);
-          }
-
-          statement.execute("commit;");
-          System.out.println("Deleted row with a = " + "vaibhav"+i);
-          delete.clearParameters();
-        }
-        ResultSet rs = statement.executeQuery("select * from test;");
-        if (rs.next() != false) {
-          System.out.println("Row val, a = " + rs.getInt(2));
-          System.out.println("Not all the rows are deleted, exiting...");
-          System.exit(0);
-        }
-
-        if (true) {
-          System.out.println("Starting another iteration, take a look at op count...");
-          System.out.println(String.format("Inserts = %d\t Updates = %d\t Deletes = %d", ins, upd, del));
-          System.out.println("Iteration count: " + iterationCounter);
-          ins = 0;
-          upd = 0;
-          del = 0;
-          Thread.sleep(3000);
-        }
-      }
-
-      insert.close();
-      delete.close();
-      selectb.close();
-      conn.close();
   }
 }

@@ -25,9 +25,9 @@ public class App
     int numOfIterations = 100;
     int internalOps = 1000;
     for (int cnt = 0; cnt > -1; ++cnt) {
+      ++iterationCounter;
       System.out.println("Starting row insert...");
       for (int i = 0; i < internalOps; ++i) {
-        ++iterationCounter;
         insert.setString(1, "vaibhav"+i);
         insert.setInt(2, i);
         int res = insert.executeUpdate();

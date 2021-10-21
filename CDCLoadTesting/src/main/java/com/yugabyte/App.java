@@ -14,7 +14,7 @@ public class App
   public void runSampleScript() throws Exception {
     Statement statement = conn.createStatement();
     System.out.println("Truncating table now...");
-    statement.execute("trucate table test;");
+    statement.execute("truncate table test;");
 
     PreparedStatement insert = conn.prepareStatement("insert into test values (?, ?, 32.34, \'{1, 2, 3}\')");
     PreparedStatement delete = conn.prepareStatement("delete from test where a = ?");

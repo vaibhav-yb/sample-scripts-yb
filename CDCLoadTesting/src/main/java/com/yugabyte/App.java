@@ -14,11 +14,11 @@ public class App
   public void runSampleScript() throws Exception {
     Statement statement = conn.createStatement();
     System.out.println("Truncating table now...");
-    statement.execute("truncate table test;");
+    statement.execute("truncate table testuniverse;");
 
-    PreparedStatement insert = conn.prepareStatement("insert into test values (?, ?, 32.34, \'{1, 2, 3}\')");
-    PreparedStatement delete = conn.prepareStatement("delete from test where a = ?");
-    PreparedStatement selectb = conn.prepareStatement("select b from test where a = ?");
+    PreparedStatement insert = conn.prepareStatement("insert into testuniverse values (?, ?, 32.34, \'{1, 2, 3}\')");
+    PreparedStatement delete = conn.prepareStatement("delete from testuniverse where a = ?");
+    PreparedStatement selectb = conn.prepareStatement("select b from testuniverse where a = ?");
 
     int ins = 0, upd = 0, del = 0;
     long iterationCounter = 0;
@@ -43,7 +43,7 @@ public class App
       System.out.println("Starting row update now...");
       for (int i = 0; i < internalOps; ++i) {
         statement.execute("begin;");
-        int res = statement.executeUpdate(String.format("update test set b = b + 1 where a = \'vaibhav"+i+"\';"));
+        int res = statement.executeUpdate(String.format("update testuniverse set b = b + 1 where a = \'vaibhav"+i+"\';"));
         if (res == 1) {
           ++upd;
         } else {
@@ -72,7 +72,7 @@ public class App
         System.out.println("Deleted row with a = " + "vaibhav"+i);
         delete.clearParameters();
       }
-      ResultSet rs = statement.executeQuery("select * from test;");
+      ResultSet rs = statement.executeQuery("select * from testuniverse;");
       if (rs.next() != false) {
         System.out.println("Row val, a = " + rs.getInt(2));
         System.out.println("Not all the rows are deleted, exiting...");

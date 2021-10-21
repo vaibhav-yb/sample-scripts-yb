@@ -13,8 +13,6 @@ public class App
 
   public void runSampleScript() throws Exception {
     Statement statement = conn.createStatement();
-    System.out.println("Truncating table now...");
-    statement.execute("truncate table testuniverse;");
 
     PreparedStatement insert = conn.prepareStatement("insert into testuniverse values (?, ?, 32.34, \'{1, 2, 3}\')");
     PreparedStatement delete = conn.prepareStatement("delete from testuniverse where a = ?");
@@ -26,6 +24,10 @@ public class App
     int internalOps = 1000;
     for (int cnt = 0; cnt > -1; ++cnt) {
       ++iterationCounter;
+
+      System.out.println("Deleting table rows now...");
+      statement.execute("delete from testuniverse;");
+
       System.out.println("Starting row insert...");
       for (int i = 0; i < internalOps; ++i) {
         insert.setString(1, "vaibhav"+i);

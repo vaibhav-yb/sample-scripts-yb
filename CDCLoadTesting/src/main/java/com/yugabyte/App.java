@@ -25,8 +25,8 @@ public class App
     for (int cnt = 0; cnt > -1; ++cnt) {
       ++iterationCounter;
 
-      System.out.println("Deleting table rows now...");
-      statement.execute("delete from testuniverse;");
+      System.out.println("Truncating table now...");
+      statement.execute("truncate table testuniverse;");
 
       System.out.println("Starting row insert...");
       for (int i = 0; i < internalOps; ++i) {
@@ -100,14 +100,15 @@ public class App
 
   public static void main(String[] args) {
     System.out.println("Starting CDC Load tester...");
-    String[] connectionPoints = {"172.151.26.187:5433", "172.151.34.47:5433", "172.151.53.154:5433"};
+    String[] connectionPoints = {"127.0.0.1:5433"};
     int ptrIdx = 0;
     while (true) {
       try {
         System.out.println("\nTrying to connect via JDBC...\nConnection point = " + connectionPoints[ptrIdx] + "\n");
-        String connectionString = String.format("jdbc:postgresql://%s/yugabyte", connectionPoints[ptrIdx]);
 
-        conn = DriverManager.getConnection(connectionString, "yugabyte", "yugabyte");
+        String connectionString = String.format("jdbc:yugabytedb://%s/yugabyte?user=yugabyte&password=yugabyte", connectionPoints[ptrIdx]);
+
+        conn = DriverManager.getConnection(connectionString);
         conn.setAutoCommit(true);
 
         App appObject = new App();
@@ -116,7 +117,7 @@ public class App
       } catch (Exception e) {
         System.out.println("Exception raised while performing operations...");
         ++ptrIdx;
-        if (ptrIdx >= 3) {
+        if (ptrIdx >= 1) {
           ptrIdx = 0;
         }
         System.out.println("Trying again with next connection point = " + connectionPoints[ptrIdx]);

@@ -30,7 +30,7 @@ public class App
 
       System.out.println("Starting row insert...");
       int mul = 1;
-      for (int i = 0; i < internalOps; ++i) {
+      for (int i = 1; i <= internalOps; ++i) {
         insert.setString(1, "vaibhav"+(i*mul));
         insert.setInt(2, (i * mul));
         int res = insert.executeUpdate();
@@ -41,6 +41,10 @@ public class App
         System.out.println("Inserted row with a = " + "vaibhav"+(i*mul) + ", b = " + (i*mul) + ", c = 32.34 and d = {1, 2, 3}");
         ++ins;
         insert.clearParameters();
+        if (cnt == numOfIterations) {
+          System.out.println("Exiting out of app...");
+          System.exit(0);
+        }
       }
       ++mul;
       Thread.sleep(30000);

@@ -20,66 +20,69 @@ public class App
 
     int ins = 0, upd = 0, del = 0;
     long iterationCounter = 0;
-    int numOfIterations = 100;
-    int internalOps = 1000;
-    for (int cnt = 0; cnt > -1; ++cnt) {
+    int numOfIterations = 2;
+    int internalOps = 200;
+    for (int cnt = 0; cnt < numOfIterations; ++cnt) {
       ++iterationCounter;
 
       System.out.println("Truncating table now...");
-      statement.execute("truncate table testuniverse;");
+      statement.execute("delete from testuniverse;");
 
       System.out.println("Starting row insert...");
+      int mul = 1;
       for (int i = 0; i < internalOps; ++i) {
-        insert.setString(1, "vaibhav"+i);
-        insert.setInt(2, i);
+        insert.setString(1, "vaibhav"+(i*mul));
+        insert.setInt(2, (i * mul));
         int res = insert.executeUpdate();
         if (res != 1) {
-          System.out.println(String.format("Error while inserting (%s, %d), exiting...", "vaibhav"+i, i));
+          System.out.println(String.format("Error while inserting (%s, %d), exiting...", "vaibhav"+(i*mul), i*mul));
           System.exit(0);
         }
-        System.out.println("Inserted row with a = " + "vaibhav"+i + ", b = " + (i) + ", c = 32.34 and d = {1, 2, 3}");
+        System.out.println("Inserted row with a = " + "vaibhav"+(i*mul) + ", b = " + (i*mul) + ", c = 32.34 and d = {1, 2, 3}");
         ++ins;
         insert.clearParameters();
       }
+      ++mul;
+      Thread.sleep(30000);
 
-      System.out.println("Starting row update now...");
-      for (int i = 0; i < internalOps; ++i) {
-        statement.execute("begin;");
-        int res = statement.executeUpdate(String.format("update testuniverse set b = b + 1 where a = \'vaibhav"+i+"\';"));
-        if (res == 1) {
-          ++upd;
-        } else {
-          System.out.println("Some error occured while updating row...");
-          System.exit(0);
-        }
-        statement.execute("commit;");
-        System.out.println("Row after update, a = " + "vaibhav"+i + " b = " + (i+1));
-        selectb.clearParameters();
-      }
-
-      System.out.println("Starting row delete...");
-      for (int i = 0; i < internalOps; ++i) {
-        statement.execute("begin;");
-        delete.setString(1, "vaibhav"+i);
-        int res = delete.executeUpdate();
-
-        if (res == 1) {
-          ++del;
-        } else {
-          System.out.println(String.format("Error while deleting key %s, exiting...", "vaibhav"+i));
-          System.exit(0);
-        }
-
-        statement.execute("commit;");
-        System.out.println("Deleted row with a = " + "vaibhav"+i);
-        delete.clearParameters();
-      }
-      ResultSet rs = statement.executeQuery("select * from testuniverse;");
-      if (rs.next() != false) {
-        System.out.println("Row val, a = " + rs.getInt(2));
-        System.out.println("Not all the rows are deleted, exiting...");
-        System.exit(0);
-      }
+//      System.out.println("Starting row update now...");
+//      for (int i = 0; i < internalOps; ++i) {
+//        statement.execute("begin;");
+//        int res = statement.executeUpdate(String.format("update testuniverse set b = b + 1 where a = \'vaibhav"+i+"\';"));
+//        if (res == 1) {
+//          ++upd;
+//        } else {
+//          System.out.println("Some error occured while updating row...");
+//          System.exit(0);
+//        }
+//        statement.execute("commit;");
+//        System.out.println("Row after update, a = " + "vaibhav"+i + " b = " + (i+1));
+//        selectb.clearParameters();
+//      }
+//
+//      System.out.println("Starting row delete...");
+//      for (int i = 0; i < internalOps; ++i) {
+//        statement.execute("begin;");
+//        delete.setString(1, "vaibhav"+i);
+//        int res = delete.executeUpdate();
+//
+//        if (res == 1) {
+//          ++del;
+//        } else {
+//          System.out.println(String.format("Error while deleting key %s, exiting...", "vaibhav"+i));
+//          System.exit(0);
+//        }
+//
+//        statement.execute("commit;");
+//        System.out.println("Deleted row with a = " + "vaibhav"+i);
+//        delete.clearParameters();
+//      }
+//      ResultSet rs = statement.executeQuery("select * from testuniverse;");
+//      if (rs.next() != false) {
+//        System.out.println("Row val, a = " + rs.getInt(2));
+//        System.out.println("Not all the rows are deleted, exiting...");
+//        System.exit(0);
+//      }
 
       if (true) {
         System.out.println("Starting another iteration, take a look at op count...");

@@ -34,7 +34,10 @@ public class App
       for (int i = 1; i <= internalOps; ++i) {
         insert.setString(1, "vaibhav"+(i*mul));
         insert.setInt(2, (i * mul));
+        statement.execute("begin");
         int res = insert.executeUpdate();
+        statement.execute("commit");
+
         if (res != 1) {
           System.out.println(String.format("Error while inserting (%s, %d), exiting...", "vaibhav"+(i*mul), i*mul));
           System.exit(0);

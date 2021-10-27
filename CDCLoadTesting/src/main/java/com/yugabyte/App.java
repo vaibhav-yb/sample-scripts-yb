@@ -32,17 +32,19 @@ public class App
 
       System.out.println("Starting row insert...");
       for (int i = 1; i <= internalOps; ++i) {
-        insert.setString(1, "vaibhav"+(i*mul));
-        insert.setInt(2, (i * mul));
+        int number = i * mul;
+        String insertStr = "kushwaha" + number;
+        insert.setString(1, "kushwaha"+insertStr);
+        insert.setInt(2, number);
         statement.execute("begin");
         int res = insert.executeUpdate();
         statement.execute("commit");
 
         if (res != 1) {
-          System.out.println(String.format("Error while inserting (%s, %d), exiting...", "vaibhav"+(i*mul), i*mul));
+          System.out.println(String.format("Error while inserting (%s, %d), exiting...", insertStr, number));
           System.exit(0);
         }
-        System.out.println("Inserted row with a = " + "vaibhav"+(i*mul) + ", b = " + (i*mul) + ", c = 32.34 and d = {1, 2, 3}");
+        System.out.println("Inserted row with a = " + insertStr + ", b = " + number + ", c = 32.34 and d = {1, 2, 3}");
         ++ins;
         insert.clearParameters();
       }
@@ -51,6 +53,7 @@ public class App
         System.exit(0);
       }
       ++mul;
+      System.out.println("Sleeping for 30 seconds now");
       Thread.sleep(30000);
 
 //      System.out.println("Starting row update now...");

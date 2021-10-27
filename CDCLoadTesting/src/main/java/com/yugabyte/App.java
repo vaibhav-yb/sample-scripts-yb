@@ -45,10 +45,10 @@ public class App
         System.out.println("Inserted row with a = " + "vaibhav"+(i*mul) + ", b = " + (i*mul) + ", c = 32.34 and d = {1, 2, 3}");
         ++ins;
         insert.clearParameters();
-        if (cnt == numOfIterations) {
-          System.out.println("Exiting out of app...");
-          System.exit(0);
-        }
+      }
+      if (cnt == numOfIterations - 1) {
+        System.out.println("Exiting out of app...");
+        System.exit(0);
       }
       ++mul;
       Thread.sleep(30000);

@@ -15,6 +15,9 @@ public class App
   public void runSampleScript() throws Exception {
     Statement statement = conn.createStatement();
 
+//    statement.execute("drop table if exists testuniverse;");
+//    statement.execute("create table testuniverse (a text primary key, b int, c numeric, d int[]);");
+
     PreparedStatement insert = conn.prepareStatement("insert into testuniverse values (?, ?, 32.34, \'{1, 2, 3}\')");
     PreparedStatement delete = conn.prepareStatement("delete from testuniverse where a = ?");
     PreparedStatement selectb = conn.prepareStatement("select b from testuniverse where a = ?");
@@ -31,6 +34,7 @@ public class App
 //      System.out.println("Truncating table now...");
 //      statement.execute("delete from testuniverse;");
 
+      System.out.println("mul value is " + mul);
       System.out.println("Starting row insert...");
       for (int i = 1; i <= internalOps; ++i) {
         int number = i * mul;
@@ -53,7 +57,7 @@ public class App
         System.out.println("Exiting out of app...");
         System.exit(0);
       }
-      ++mul;
+      mul = 1000;
       System.out.println("mul value is " + mul);
       System.out.println("Sleeping for 30 seconds now");
       Thread.sleep(30000);
@@ -116,7 +120,7 @@ public class App
 
   public static void main(String[] args) {
     System.out.println("Starting CDC Load tester...");
-    String[] connectionPoints = {"172.151.62.251:5433"};
+    String[] connectionPoints = {"127.0.0.1:5433"}; //172.151.62.251:5433
     int ptrIdx = 0;
     while (true) {
       try {

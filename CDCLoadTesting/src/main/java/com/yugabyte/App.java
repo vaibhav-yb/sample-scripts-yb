@@ -10,7 +10,7 @@ import java.sql.Statement;
 public class App 
 {
   public static Connection conn;
-  int mul = 1;
+  long mul = 10000;
 
   public void runSampleScript() throws Exception {
     Statement statement = conn.createStatement();
@@ -57,7 +57,7 @@ public class App
         System.out.println("Exiting out of app...");
         System.exit(0);
       }
-      mul = 1000;
+      mul = 100000;
       System.out.println("mul value is " + mul);
       System.out.println("Sleeping for 30 seconds now");
       Thread.sleep(30000);

@@ -120,7 +120,7 @@ public class App
 
   public static void main(String[] args) {
     System.out.println("Starting CDC Load tester...");
-    String[] connectionPoints = {"127.0.0.1:5433"}; //172.151.62.251:5433
+    String[] connectionPoints = {"172.151.62.251:5433"}; //172.151.62.251:5433
     int ptrIdx = 0;
     while (true) {
       try {

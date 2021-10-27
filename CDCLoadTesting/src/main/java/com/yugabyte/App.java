@@ -22,14 +22,15 @@ public class App
     long iterationCounter = 0;
     int numOfIterations = 2;
     int internalOps = 200;
+    int mul = 1;
+
     for (int cnt = 0; cnt < numOfIterations; ++cnt) {
       ++iterationCounter;
 
-      System.out.println("Truncating table now...");
-      statement.execute("delete from testuniverse;");
+//      System.out.println("Truncating table now...");
+//      statement.execute("delete from testuniverse;");
 
       System.out.println("Starting row insert...");
-      int mul = 1;
       for (int i = 1; i <= internalOps; ++i) {
         insert.setString(1, "vaibhav"+(i*mul));
         insert.setInt(2, (i * mul));

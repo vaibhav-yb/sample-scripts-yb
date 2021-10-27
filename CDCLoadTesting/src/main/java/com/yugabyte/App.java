@@ -10,6 +10,7 @@ import java.sql.Statement;
 public class App 
 {
   public static Connection conn;
+  int mul = 1;
 
   public void runSampleScript() throws Exception {
     Statement statement = conn.createStatement();
@@ -22,7 +23,7 @@ public class App
     long iterationCounter = 0;
     int numOfIterations = 2;
     int internalOps = 200;
-    int mul = 1;
+
 
     for (int cnt = 0; cnt < numOfIterations; ++cnt) {
       ++iterationCounter;
@@ -53,6 +54,7 @@ public class App
         System.exit(0);
       }
       ++mul;
+      System.out.println("mul value is " + mul);
       System.out.println("Sleeping for 30 seconds now");
       Thread.sleep(30000);
 

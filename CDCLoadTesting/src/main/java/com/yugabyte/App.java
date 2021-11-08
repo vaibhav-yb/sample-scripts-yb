@@ -84,7 +84,7 @@ public class App
         statement.execute("commit;");
 
         statement.execute("begin;");
-        int res = statement.executeUpdate(String.format("update testuniverse2 set b = b + 1 where a = \'vaibhav"+i+"\';"));
+        res = statement.executeUpdate(String.format("update testuniverse2 set b = b + 1 where a = \'vaibhav"+i+"\';"));
         if (res == 1) {
           ++upd;
         } else {

@@ -53,6 +53,7 @@ public class App
         insert.setString(1, "vaibhav"+i);
         insert.setInt(2, i);
         int res = insert.executeUpdate();
+        ++ins;
         if (res != 1) {
           System.out.println(String.format("Error while inserting (%s, %d), exiting...", "vaibhav"+i, i));
           System.exit(0);
@@ -60,13 +61,13 @@ public class App
         insert2.setString(1, "vaibhav"+i);
         insert2.setInt(2, i);
         int res2 = insert2.executeUpdate();
+        ++ins;
         if (res2 != 1) {
           System.out.println(String.format("Error while inserting (%s, %d), exiting...", "vaibhav"+i, i));
           System.exit(0);
         }
 
         System.out.println("Inserted row with a = " + "vaibhav"+i + ", b = " + (i) + ", c = 32.34 and d = {1, 2, 3}");
-        ++ins;
         insert.clearParameters();
         insert2.clearParameters();
       }

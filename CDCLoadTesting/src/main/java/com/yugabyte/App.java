@@ -26,7 +26,7 @@ public class App
     PreparedStatement delete2 = conn.prepareStatement("delete from testuniverse2 where a = ?");
     PreparedStatement selectb2 = conn.prepareStatement("select b from testuniverse2 where a = ?");
 
-    Properties prop = new Properties();
+    /*Properties prop = new Properties();
     File file = new File("~/app.properties");
     if (file.createNewFile()) {
       System.out.println("File didn't exist, created successfully...");
@@ -37,7 +37,7 @@ public class App
 
     ins = (prop.getProperty("inserts") == null) ? ins : Integer.parseInt(prop.getProperty("inserts"));
     upd = (prop.getProperty("updates") == null) ? upd : Integer.parseInt(prop.getProperty("updates"));
-    del = (prop.getProperty("deletes") == null) ? del : Integer.parseInt(prop.getProperty("deletes"));
+    del = (prop.getProperty("deletes") == null) ? del : Integer.parseInt(prop.getProperty("deletes"));*/
 
     System.out.println("Deleting table rows now...");
     statement.execute("delete from testuniverse;");
@@ -176,7 +176,7 @@ public class App
 
       } catch (Exception e) {
         System.out.println("Exception raised while performing operations...");
-        File file = new File("~/app.properties");
+        /*File file = new File("~/app.properties");
         try {
           if (file.createNewFile()) {
             System.out.println("Creating a new file to store the count...");
@@ -189,7 +189,7 @@ public class App
           prop.store(new FileOutputStream(file), "Storing the opCount at " + LocalTime.now());
         } catch (IOException io) {
           System.out.println("IO Exception thrown");
-        }
+        }*/
 
         ++ptrIdx;
         if (ptrIdx >= 1) {

@@ -183,8 +183,8 @@ public class App
           }
           Properties prop = new Properties();
           prop.setProperty("inserts", String.valueOf(i));
-          prop.setProperty("updates", u);
-          prop.setProperty("deletes", d);
+          prop.setProperty("updates", String.valueOf(u));
+          prop.setProperty("deletes", String.valueOf(d));
 
           prop.store(new FileOutputStream(file), "Storing the opCount at " + LocalTime.now());
         } catch (IOException io) {

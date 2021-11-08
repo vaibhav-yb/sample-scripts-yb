@@ -160,7 +160,7 @@ public class App
 
   public static void main(String[] args) {
     System.out.println("Starting CDC Load tester...");
-    String[] connectionPoints = {"172.151.26.187:5433"};
+    String[] connectionPoints = {"127.0.0.1:5433"};
     int ptrIdx = 0;
     int i = 0, u = 0, d = 0;
     while (true) {
@@ -182,7 +182,7 @@ public class App
             System.out.println("Creating a new file to store the count...");
           }
           Properties prop = new Properties();
-          prop.setProperty("inserts", i);
+          prop.setProperty("inserts", String.valueOf(i));
           prop.setProperty("updates", u);
           prop.setProperty("deletes", d);
 

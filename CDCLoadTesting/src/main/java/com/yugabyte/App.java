@@ -15,7 +15,7 @@ public class App
 {
   public static Connection conn;
 
-  public void runSampleScript() throws Exception {
+  public void runSampleScript(String uniquePhrase, long counter) throws Exception {
     Statement statement = conn.createStatement();
 
     PreparedStatement insert = conn.prepareStatement("insert into testuniverse values (?, ?, 32.34, \'{1, 2, 3}\')");
@@ -28,12 +28,12 @@ public class App
     statement.execute("delete from testuniverse;");
     statement.execute("delete from testuniverse2;");
 
-    long insertionCounter = 0;
+    long insertionCounter = counter;
     int numOfIterations = 100;
     int internalOps = 1000;
     for (long cnt = 1; cnt > -1; ++cnt) {
       ++insertionCounter;
-      String insertString = "vaibhavInsert" + cnt;
+      String insertString = "vaibhavInsert" + uniquePhrase.toUpperCase() + System.currentTimeMillis();
       insert.setString(1, insertString);
       insert.setLong(2, cnt);
       insert2.setString(1, insertString);
@@ -47,7 +47,7 @@ public class App
       }
 
       if (cnt % 1000 == 0) {
-        System.out.println("Number of insertions so far: " + insertionCounter);
+        System.out.println(Thread.currentThread().getName() + "Number of insertions so far: " + insertionCounter);
         Thread.sleep(1500);
       }
 
@@ -75,8 +75,27 @@ public class App
           System.out.println("JDBC connection successful...");
         }
 
-        App appObject = new App();
-        appObject.runSampleScript();
+        int count1 = 0, count2 = 0;
+        String uw = "thread_One", uw2 = "thread_two";
+
+        Thread t1 = new Thread(() -> {
+          App appObject = new App();
+          try {
+            appObject.runSampleScript(uw, count1);
+          } catch (Exception e) {
+          }
+        });
+
+        Thread t2 = new Thread(() -> {
+          App appObject = new App();
+          try {
+            appObject.runSampleScript(uw2, count2);
+          } catch (Exception e) {
+          }
+        });
+
+        t1.start();
+        t2.start();
 
       } catch (RuntimeException re) {
         System.out.println("Received runtime exception while inserting");

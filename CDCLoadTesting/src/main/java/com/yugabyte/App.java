@@ -48,7 +48,7 @@ public class App
 
       if (cnt % 1000 == 0) {
         System.out.println("Number of insertions so far: " + insertionCounter);
-        Thread.sleep(1500);
+        Thread.sleep(700);
       }
 
       insert.clearParameters();

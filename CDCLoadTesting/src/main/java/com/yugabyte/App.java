@@ -31,7 +31,7 @@ public class App
     long insertionCounter = 0;
     int numOfIterations = 100;
     int internalOps = 1000;
-    for (int cnt = 0; cnt > -1; ++cnt) {
+    for (long cnt = 0; cnt > -1; ++cnt) {
       ++insertionCounter;
       String insertString = "vaibhavInsert" + cnt;
       insert.setString(1, insertString);

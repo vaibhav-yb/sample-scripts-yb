@@ -47,7 +47,7 @@ public class App
       }
 
       if (cnt % 1000 == 0) {
-        System.out.println(Thread.currentThread().getName() + "Number of insertions so far: " + insertionCounter);
+        System.out.println(Thread.currentThread().getName() + " Number of insertions so far: " + insertionCounter);
         Thread.sleep(1500);
       }
 
@@ -83,6 +83,8 @@ public class App
           try {
             appObject.runSampleScript(uw, count1);
           } catch (Exception e) {
+            System.out.println("Exception in thread 1");
+            e.printStackTrace();
           }
         });
 
@@ -91,6 +93,8 @@ public class App
           try {
             appObject.runSampleScript(uw2, count2);
           } catch (Exception e) {
+            System.out.println("Exception in thread 2");
+            e.printStackTrace();
           }
         });
 

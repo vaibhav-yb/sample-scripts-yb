@@ -39,6 +39,13 @@ public class App
       insert2.setString(1, insertString);
       insert2.setLong(2, cnt);
 
+      int ins1 = insert.executeUpdate();
+      int ins2 = insert2.executeUpdate();
+
+      if (!(ins1 == 1 && ins2 == 1)) {
+        throw new RuntimeException("Insertion didnn't happen properly");
+      }
+
       if (cnt % 1000 == 0) {
         System.out.println("Number of insertions so far: " + insertionCounter);
         Thread.sleep(1500);
@@ -71,6 +78,9 @@ public class App
         App appObject = new App();
         appObject.runSampleScript();
 
+      } catch (RuntimeException re) {
+        System.out.println("Received runtime exception while inserting");
+        re.printStackTrace();
       } catch (Exception e) {
         System.out.println("Exception raised while performing operations...");
         System.out.println(e);

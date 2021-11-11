@@ -42,7 +42,7 @@ public class App
       int ins1 = insert.executeUpdate();
 //      int ins2 = insert2.executeUpdate();
 
-      if (!(ins1 == 1 && ins2 == 1)) {
+      if (!(ins1 == 1)) {
         throw new RuntimeException("Insertion didnn't happen properly");
       }
 

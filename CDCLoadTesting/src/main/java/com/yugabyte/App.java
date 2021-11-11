@@ -33,7 +33,7 @@ public class App
     int internalOps = 1000;
     for (long cnt = 1; cnt > -1; ++cnt) {
       ++insertionCounter;
-      String insertString = "vaibhavInsert" + uniquePhrase.toUpperCase() + System.currentTimeMillis();
+      String insertString = "vaibhavInsert" + cnt + uniquePhrase.toUpperCase() + System.currentTimeMillis();
       insert.setString(1, insertString);
       insert.setLong(2, cnt);
 //      insert2.setString(1, insertString);

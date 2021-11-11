@@ -20,13 +20,13 @@ public class App
 
     PreparedStatement insert = conn.prepareStatement("insert into testuniverse values (?, ?, 32.34, \'{1, 2, 3}\')");
 
-    PreparedStatement insert2 = conn.prepareStatement("insert into testuniverse2 values (?, ?, 32.34, \'{1, 2, 3}\')");
+//    PreparedStatement insert2 = conn.prepareStatement("insert into testuniverse2 values (?, ?, 32.34, \'{1, 2, 3}\')");
 
     // create table testuniverse (a text primary key, b int, c numeric, d int[]);
     // create table testuniverse2 (a text primary key, b int, c numeric, d int[]);
     System.out.println("Deleting table rows now...");
     statement.execute("delete from testuniverse;");
-    statement.execute("delete from testuniverse2;");
+//    statement.execute("delete from testuniverse2;");
 
     long insertionCounter = counter;
     int numOfIterations = 100;
@@ -36,11 +36,11 @@ public class App
       String insertString = "vaibhavInsert" + uniquePhrase.toUpperCase() + System.currentTimeMillis();
       insert.setString(1, insertString);
       insert.setLong(2, cnt);
-      insert2.setString(1, insertString);
-      insert2.setLong(2, cnt);
+//      insert2.setString(1, insertString);
+//      insert2.setLong(2, cnt);
 
       int ins1 = insert.executeUpdate();
-      int ins2 = insert2.executeUpdate();
+//      int ins2 = insert2.executeUpdate();
 
       if (!(ins1 == 1 && ins2 == 1)) {
         throw new RuntimeException("Insertion didnn't happen properly");
@@ -52,11 +52,11 @@ public class App
       }
 
       insert.clearParameters();
-      insert2.clearParameters();
+//      insert2.clearParameters();
     }
 
     insert.close();
-    insert2.close();
+//    insert2.close();
     statement.close();
   }
 

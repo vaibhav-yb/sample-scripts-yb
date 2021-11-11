@@ -35,9 +35,9 @@ public class App
       ++insertionCounter;
       String insertString = "vaibhavInsert" + cnt;
       insert.setString(1, insertString);
-      insert.setInt(2, cnt);
+      insert.setLong(2, cnt);
       insert2.setString(1, insertString);
-      insert2.setInt(2, cnt);
+      insert2.setLong(2, cnt);
 
       if (cnt % 1000 == 0) {
         System.out.println("Number of insertions so far: " + insertionCounter);

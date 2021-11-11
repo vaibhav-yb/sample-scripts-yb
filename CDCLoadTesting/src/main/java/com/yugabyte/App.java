@@ -43,7 +43,7 @@ public class App
 //      int ins2 = insert2.executeUpdate();
 
       if (!(ins1 == 1)) {
-        throw new RuntimeException("Insertion didnn't happen properly");
+        throw new RuntimeException("Insertion didn't happen properly");
       }
 
       if (cnt % 1000 == 0) {

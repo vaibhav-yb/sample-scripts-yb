@@ -17,19 +17,38 @@ import java.util.Scanner;
 public class App 
 {
   public static Connection conn;
+  public static String connectionString;
 
-  private static BasicDataSource dataSource = null;
-  private static String[] connectionPoints = {"172.151.56.111:5433"};
+  private static BasicDataSource[] dataSource = {null, null, null};
+  private static String[] connectionPoints = {"172.151.32.4:5433", "172.151.16.85:5433", "172.151.56.111:5433"};
 
   static {
-    dataSource = new BasicDataSource();
-    String connectionString = String.format("jdbc:postgresql://%s/yugabyte", connectionPoints[0]);
-    dataSource.setUrl(connectionString);
-    dataSource.setUsername("yugabyte");
-    dataSource.setPassword("yugabyte");
-    dataSource.setMinIdle(5);
-    dataSource.setMaxIdle(7);
-    dataSource.setMaxTotal(15);
+    dataSource[0] = new BasicDataSource();
+    connectionString = String.format("jdbc:postgresql://%s/yugabyte", connectionPoints[0]);
+    dataSource[0].setUrl(connectionString);
+    dataSource[0].setUsername("yugabyte");
+    dataSource[0].setPassword("yugabyte");
+    dataSource[0].setMinIdle(5);
+    dataSource[0].setMaxIdle(7);
+    dataSource[0].setMaxTotal(15);
+
+    dataSource[1] = new BasicDataSource();
+    connectionString = String.format("jdbc:postgresql://%s/yugabyte", connectionPoints[1]);
+    dataSource[1].setUrl(connectionString);
+    dataSource[1].setUsername("yugabyte");
+    dataSource[1].setPassword("yugabyte");
+    dataSource[1].setMinIdle(5);
+    dataSource[1].setMaxIdle(7);
+    dataSource[1].setMaxTotal(15);
+
+    dataSource[2] = new BasicDataSource();
+    connectionString = String.format("jdbc:postgresql://%s/yugabyte", connectionPoints[2]);
+    dataSource[2].setUrl(connectionString);
+    dataSource[2].setUsername("yugabyte");
+    dataSource[2].setPassword("yugabyte");
+    dataSource[2].setMinIdle(5);
+    dataSource[2].setMaxIdle(7);
+    dataSource[2].setMaxTotal(15);
   }
 
   public void runSampleScript(int iVal) throws Exception {
@@ -91,13 +110,14 @@ public class App
     statement.close();
   }
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws Exception {
+    int ptr = 0;
     int iVal = 1;
     System.out.println("Starting CDC Load tester...");
+    conn = dataSource[ptr].getConnection();
     while (true) {
       try {
-        conn = dataSource.getConnection();
-        conn.setAutoCommit(true);
+
         if (!conn.isClosed()) {
           System.out.println("JDBC connection successful...");
         }
@@ -108,11 +128,18 @@ public class App
       } catch (RuntimeException re) {
         System.out.println("Received runtime exception while inserting");
         re.printStackTrace();
+        System.exit(1);
       } catch (Exception e) {
         System.out.println("Exception raised while performing operations...");
         System.out.println(e);
         e.printStackTrace();
         System.out.println("\n\nTrying again...\n");
+
+        ++ptr;
+        if (ptr >= 3) {
+          ptr = 0;
+        }
+        conn = dataSource[ptr].getConnection();
       }
     }
   }

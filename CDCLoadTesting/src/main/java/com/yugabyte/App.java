@@ -89,16 +89,7 @@ public class App
 
       if (cnt % 1000 == 0) {
         System.out.println("Number of insertions so far: " + insertionCounter);
-        System.out.println("Do you want to continue inserting? (y/n)... ");
-        Scanner sc = new Scanner(System.in);
-        char ch = sc.next().charAt(0);
-        if (ch == 'y' || ch== 'Y') {
-          System.out.println("Continuing inserts...");
-          Thread.sleep(400);
-        } else {
-          System.out.println("Exiting from the app...");
-          System.exit(0);
-        }
+        Thread.sleep(400);
       }
 
       insert.clearParameters();
